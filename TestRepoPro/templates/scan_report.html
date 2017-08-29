@@ -1,0 +1,432 @@
+{% extends "index.html" %}
+
+    {% block page-level-styles %}
+        <link href="/static/plugins/bootstrap/bootstrap-dialog.css" rel="stylesheet" />
+        <link href="/static/plugins/bootstrap/bootstrap-dialog.min.css" rel="stylesheet" />
+    {% endblock %}  
+    
+    {% block content %}
+        <!--  page-wrapper -->
+        <div id="page-wrapper">
+
+            <div class="row">
+                 <!--  page header -->
+                <div class="col-lg-12">
+                    <h4 class="page-header">
+                        <ol class="breadcrumb">
+                            <li><b>{{ report_name }}</b></li>
+                        </ol>
+                    </h4>
+                </div>
+                 <!-- end  page header -->
+            </div>
+
+            <div class="row">
+                <!-- <div class="col-lg-12">
+                    <h5>
+                        <label id="label-body">Last Executed on:{{ curr_exec_ts }}</label>
+                    </h5>
+                </div> -->
+                <div class="col-lg-12">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="" id="disp-exec">
+                            <b>: Last Executions Info</b>
+                        </labe;>
+                    </div>
+                    <div id="exec-stats" >
+                        <div class="panel panel-default" >
+                                <div class="panel-heading">
+                                    <p style='text-align:left;'>
+                                        <b>Execution Stats:</b>
+                                    </p>
+                                </div>
+                                <div class="panel-body" class="hide">
+                                    <div id="execChart" class="columnChart chart col"></div>
+                                </div>
+                        </div>
+                    </div>
+                    <!-- <div style='display:none;' id="exec-stats">
+                        <div id="execChart" class="execChart chart col"></div>
+                    </div> -->
+                </div>
+            </div>
+                     
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p style='text-align:left;'>
+                                <b>Host Info:</b>
+                                ( {{ curr_exec_ts }} )
+                                <span style='float:right;'>
+                                    <a href='#' id='full-scan-report' >
+                                        <b>View Full Report</b>
+                                    </a>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="hosts-scan-report">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Host Name</th>
+                                            <th>Open Ports</th>
+                                            <th>Critical</th>
+                                            <th>High</th>
+                                            <th>Medium</th>
+                                            <th>Low</th>
+                                            <th>Info</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for each_host in host_high_level_info %}
+                                            <tr>                  
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>
+                                                <a href="#" id='host-scan-report' data-param1="st_id={{ each_host.st_id }}" data-hostname="{{ each_host.name }}" >
+                                                    {{ each_host.name }}
+                                                </a>
+                                            </td>
+                                            <td class="center">
+                                                <a href="#" id="report-by-type" data-param1="type=port&value=''&st_id={{ each_host.st_id }}" data-hostname="{{ each_host.name }}" >
+                                                    {{ each_host.open_ports_count }}
+                                                </a>
+                                            </td>
+                                            <td class="center">
+                                                <a href="#" id="report-by-type" data-param1="type=severity&value=critical&st_id={{ each_host.st_id }}" data-hostname="{{ each_host.name }}" >
+                                                    {{ each_host.critical }}
+                                                </a>
+                                            </td>
+                                            <td class="center">
+                                                <a href="#" id="report-by-type" data-param1="type=severity&value=high&st_id={{ each_host.st_id }}" data-hostname="{{ each_host.name }}" >
+                                                    {{ each_host.high }}
+                                                </a>
+                                            </td>
+                                            <td class="center">
+                                                <a href="#" id="report-by-type" data-param1="type=severity&value=medium&st_id={{ each_host.st_id }}" data-hostname="{{ each_host.name }}" >
+                                                    {{ each_host.medium }}
+                                                </a>
+                                            </td>
+                                            <td class="center">
+                                                <a href="#" id="report-by-type" data-param1="type=severity&value=low&st_id={{ each_host.st_id }}" data-hostname="{{ each_host.name }}" >
+                                                    {{ each_host.low }}
+                                                </a>
+                                            </td>
+                                            <td class="center">
+                                                <a href="#" id="report-by-type" data-param1="type=severity&value=info&st_id={{ each_host.st_id }}" data-hostname="{{ each_host.name }}" >
+                                                    {{ each_host.info }}
+                                                </a>
+                                            </td>
+                                        {% endfor %}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- <div id="execChart" class="execChart chart col"></div> -->
+                </div>
+            </div>
+                        
+        </div>
+        <!-- end page-wrapper -->
+    {% endblock %}
+
+    <!-- Page-Level Plugin Scripts-->
+    {% block page-level-scripts %}
+        <!--<script src="/static/plugins/breadcrumb/breadcrumb_prefix.js"></script>-->
+        <script src="/static/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/static/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <script src="/static/plugins/bootstrap/bootstrap-dialog.min.js"></script>
+        <script src="/static/plugins/bootstrap/bootstrap-dialog.js"></script>
+        <script src="/static/scripts/chartinator.js"></script>
+        <script src="/static/scripts/chartinator.min.js"></script>
+        <script>
+            $(document).ready(
+                function () 
+                {
+
+                    $('#disp-exec').attr('checked', true );
+
+                    var chart4 = $('#execChart').chartinator({
+
+                    columns: [
+                        {label: 'TimeStamp', type: 'string'},
+                        {label: 'Critical', type: 'number'},
+                        {label: 'High', type: 'number'},
+                        {label: 'Medium', type: 'number'},
+                        {label: 'Low', type: 'number'},
+                        {label: 'Info', type: 'number'}],
+
+                    // rows: [
+                    //     ['2015/11/26:11:00', 2, 0, 0, 2, 18],
+                    //     ['2015/11/27:12:00', 2, 0, 0, 2, 18],
+                    //     ['2015/11/28:08:00', 2, 0, 0, 2, 18],
+                    //     ['2015/11/29:21:00', 2, 0, 0, 2, 18],
+                    //     ['2015/11/30:12:00', 2, 0, 0, 2, 18]],
+
+                    //var exec_results = {{ last_five_exec_results|safe }};
+                    rows:{{ last_five_exec_results|safe }},
+
+                    tableClass: 'col-table',
+
+                    // Options: false, 'basic-table', 'table-chart'
+                    createTable: false,
+
+                    // Use TitleCase names. eg. BarChart, PieChart, ColumnChart, Calendar, GeoChart, Table.
+                    chartType: 'ColumnChart',
+
+                    // The data title
+                    // A title used to identify the set of data
+                    // Used as a caption when generating an HTML table
+                    dataTitle: 'Column Chart Data',
+
+                    // The chart aspect ratio custom option - width/height
+                    // Used to calculate the chart dimensions relative to the width or height
+                    // this is overridden if the Google Chart's height and width options have values
+                    // Suggested value: 1.25
+                    // Default: false - not used
+                    chartAspectRatio: 1.75,
+
+                    // Google Column Chart Options
+                    columnChart: {
+
+                        // Width of chart in pixels - Number
+                        // Default: automatic (unspecified)
+                        width: 1000,
+
+                        // Height of chart in pixels - Number
+                        // Default: automatic (unspecified)
+                        height: 250,
+
+                        chartArea: {
+                            left: "10%",
+                            top: 50,
+                            width: "80%",
+                            height: "60%"
+                        },
+                    
+                        legend: {
+
+                            // Legend position - String
+                            // Options: bottom, top, left, right, in, none.
+                            // Default: bottom
+                            position: 'bottom',
+                        },
+
+                        // Array of colours
+                        colors: ['#d43f3a', '#ee9336', '#fdc431', '#4cae4c', '#357abd', '#263645'],
+
+                        // Stack values within a bar or column chart - Boolean
+                        // Default: false.
+                        isStacked: true,
+
+                        tooltip: {
+                            // Options: focus, none.
+                            trigger: 'focus'
+                        }
+                    },
+
+                    // Show table as well as chart - String
+                    // Options: 'show', 'hide', 'remove'
+                    showTable: 'hide'
+                    });
+                }
+                );
+        </script>
+        <script type="text/javascript">
+            // jQuery(function ($) 
+            //     {
+
+            //         var chart4 = $('#execChart').chartinator({
+
+            //         columns: [
+            //             {label: 'TimeStamp', type: 'string'},
+            //             {label: 'Critical', type: 'number'},
+            //             {label: 'High', type: 'number'},
+            //             {label: 'Medium', type: 'number'},
+            //             {label: 'Low', type: 'number'},
+            //             {label: 'Info', type: 'number'}],
+
+            //         // rows: [
+            //         //     ['2015/11/26:11:00', 2, 0, 0, 2, 18],
+            //         //     ['2015/11/27:12:00', 2, 0, 0, 2, 18],
+            //         //     ['2015/11/28:08:00', 2, 0, 0, 2, 18],
+            //         //     ['2015/11/29:21:00', 2, 0, 0, 2, 18],
+            //         //     ['2015/11/30:12:00', 2, 0, 0, 2, 18]],
+
+            //         //var exec_results = {{ last_five_exec_results|safe }};
+            //         rows:{{ last_five_exec_results|safe }},
+
+            //         tableClass: 'col-table',
+
+            //         // Options: false, 'basic-table', 'table-chart'
+            //         createTable: false,
+
+            //         // Use TitleCase names. eg. BarChart, PieChart, ColumnChart, Calendar, GeoChart, Table.
+            //         chartType: 'ColumnChart',
+
+            //         // The data title
+            //         // A title used to identify the set of data
+            //         // Used as a caption when generating an HTML table
+            //         dataTitle: 'Column Chart Data',
+
+            //         // The chart aspect ratio custom option - width/height
+            //         // Used to calculate the chart dimensions relative to the width or height
+            //         // this is overridden if the Google Chart's height and width options have values
+            //         // Suggested value: 1.25
+            //         // Default: false - not used
+            //         chartAspectRatio: 1.75,
+
+            //         // Google Column Chart Options
+            //         columnChart: {
+
+            //             // Width of chart in pixels - Number
+            //             // Default: automatic (unspecified)
+            //             width: 1000,
+
+            //             // Height of chart in pixels - Number
+            //             // Default: automatic (unspecified)
+            //             height: 250,
+
+            //             chartArea: {
+            //                 left: "10%",
+            //                 top: 50,
+            //                 width: "120%",
+            //                 height: "70%"
+            //             },
+                    
+            //             legend: {
+
+            //                 // Legend position - String
+            //                 // Options: bottom, top, left, right, in, none.
+            //                 // Default: bottom
+            //                 position: 'bottom',
+            //             },
+
+            //             // Array of colours
+            //             colors: ['#d43f3a', '#ee9336', '#fdc431', '#4cae4c', '#357abd', '#263645'],
+
+            //             // Stack values within a bar or column chart - Boolean
+            //             // Default: false.
+            //             isStacked: true,
+
+            //             tooltip: {
+            //                 // Options: focus, none.
+            //                 trigger: 'focus'
+            //             }
+            //         },
+
+            //         // Show table as well as chart - String
+            //         // Options: 'show', 'hide', 'remove'
+            //         showTable: 'hide'
+            //         });
+            //    });           
+        </script>
+
+        <script>
+            $(document).ready(
+                function () 
+                {
+                    $('#hosts-scan-report').dataTable();
+                }
+            );
+
+        </script>
+        <script>
+            $("li[id^='scan-tab']").on( 'click', function()
+                {
+                    $(this).addClass("selected");
+                }
+            );
+        </script>
+        <script>
+            $('#disp-exec').on( 'click', function()
+                {
+                    //$('#exec-stats').toggleClass("hide");
+                    $('#exec-stats').fadeToggle();
+
+                }
+            );
+        </script>
+        <script>
+            $("a[id^='full-scan-report']").on('click',function()
+            {
+                // final_url = base_url.concat( encodedUrl );
+                //final_url = "/TestRepoPro/scan_report/?report_name={{ report_name }}"
+                final_url = "/TestRepoPro/full_scan_report/?scan_type={{ scan_type }}"
+                BootstrapDialog.show(
+                                        {
+                                            title: 'Full Scan Report:',                                            
+                                            message: $('<div></div>').load( final_url ),
+                                            buttons:[ 
+                                                        {
+                                                            label:'Close',
+                                                            action: function( dialogItself ){
+                                                                                                dialogItself.close();
+                                                                                            }
+                                                        }
+                                                    ],
+                                        }
+                                    );
+            }
+                            );
+
+            $("a[id^='host-scan-report']").on('click',function()
+            {
+                var params = this.dataset['param1']
+                base_url = "/TestRepoPro/host_scan_report/?"
+                final_url = base_url.concat( params )
+                lb = 'Host Level Scan Report : {{ scan_type }} / '+this.dataset['hostname']
+                BootstrapDialog.show(
+                                        {
+                                            title: lb,                                            
+                                            message: $('<div></div>').load( final_url ),
+                                            buttons:[ 
+                                                        {
+                                                            label:'Close',
+                                                            action: function( dialogItself ){
+                                                                                                dialogItself.close();
+                                                                                            }
+                                                        }
+                                                    ],
+                                        }
+                                    );
+            }
+                            );
+
+            $("a[id^='report-by-type']").on('click',function()
+            {
+                var params = this.dataset['param1']
+                base_url = "/TestRepoPro/scan_report_bytype/?"
+                final_url = base_url.concat( params )
+                modal_header = '{{ scan_type }} / '+this.dataset['hostname']
+                BootstrapDialog.show(
+                                        {
+                                            title: modal_header,                                            
+                                            message: $('<div></div>').load( final_url ),
+                                            buttons:[ 
+                                                        {
+                                                            label:'Close',
+                                                            action: function( dialogItself ){
+                                                                                                dialogItself.close();
+                                                                                            }
+                                                        }
+                                                    ],
+                                        }
+                                    );
+            }
+                            );
+            
+        </script>
+    {% endblock %}

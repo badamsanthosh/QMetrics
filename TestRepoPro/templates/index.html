@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/img/zeotap.ico">
+    <title>QADashBoardPro</title>    
+    <!-- Core CSS - Include with every page -->
+    <link href="/static/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/static/plugins/pace/pace-theme-big-counter.css" rel="stylesheet" />
+    <link href="/static/css/style.css" rel="stylesheet" />
+    <link href="/static/css/custom_style.css" rel="stylesheet" />
+    <link href="/static/css/main-style.css" rel="stylesheet" />
+    <!-- Page-Level CSS -->
+    <link href="/static/plugins/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    {% block page-level-styles %}
+    {% endblock %}
+   </head>
+<body>
+    <!--  wrapper -->
+    <div id="wrapper">
+        <!-- navbar top -->
+        <!--
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar"  style="margin-bottom: 5px; width: 1263px; height: 75px;" > -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar" style="padding-top: 5px;">
+            <!-- navbar-header -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img src="/static/img/zeotap.ico" alt=""  style="width: 80px; height: 70px; padding-top: 0px; padding-left: 0px; padding-bottom: 1px; float: left;"  />                
+                 <a class="navbar-brand" href="/TestRepoPro/index/"  style="padding: 25px 5px; border-width: 1px;">   
+                    <b>QADashBoardPro</b> 
+                </a>
+            </div>
+            <!-- end navbar-header -->
+            <!-- navbar-top-links -->
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- main dropdown -->
+                <li>
+                    <b style="color:white;"><h3>Welcome {{ user.first_name }}<h3></b>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="padding-top: 10px; padding-bottom: 10px;" >
+                        <i class="fa fa-user fa-3x"></i>
+                    </a>
+                    <!-- dropdown user-->
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/TestRepoPro/logout/"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                        </li>
+                    </ul>
+                    <!-- end dropdown-user -->
+                </li>
+                <!-- end main dropdown -->
+            </ul>
+            <!-- end navbar-top-links -->
+
+        </nav>
+        <!-- end navbar top -->
+
+        <!-- navbar side -->
+        <nav class="navbar-default navbar-static-side" role="navigation" style="position:fixed; padding-top: -5px;">
+            <!-- sidebar-collapse -->
+            <div class="sidebar-collapse" style="margin-top: 20px;" >
+                <!-- side-menu -->
+
+                <ul class="nav" id="side-menu">                    
+                    
+                    <li id="dashboard">
+                        <a href="/TestRepoPro/dashboard/"><i class="fa fa-dashboard fa-fw"></i>DashBoard<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li id="staging"> 
+                                <a href="/TestRepoPro/staging/">Staging</a>
+                            </li>
+                            <li id="production">
+                                <a href="/TestRepoPro/production/">Production</a>
+                            </li>
+                        </ul>
+                    </li>                     
+                    <li id="projects">
+                        <a href="/TestRepoPro/projects/"><i class="fa fa-table fa-fw"></i>Projects</a>
+                    </li>
+
+                    <!-- <li id="add-project">
+                        <a href="/TestRepoPro/add_project/"><i class="fa fa-edit fa-fw"></i>Add Project</a>
+                    </li> -->
+
+                    <li id="security">
+                        <a href="/TestRepoPro/dashboard/"><i class="fa fa-github-alt fa-fw"></i>Security<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li id="scan-tab"> 
+                                <a href="/TestRepoPro/scan_report/?scan_type=BasicNetworkScan">Basic N/w Scan</a>
+                            </li>
+                            <li id="scan-tab">
+                                <a href="/TestRepoPro/scan_report/?scan_type=WebApplicationTests">Web Apps Scan</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- 
+                    <li id="run-sync">
+                        <a href="/TestRepoPro/run_sync/"><i class="fa fa-flask fa-fw"></i>Security</a>
+                    </li> -->
+                    
+                    <li id="add-user">
+                        <a href="/TestRepoPro/add_user/"><i class="fa fa-user fa-fw"></i>Add User</a>
+                    </li>
+
+                    <!-- <li id="add-user">
+                        <a href="/TestRepoPro/test/"><i class="fa fa-user fa-fw"></i>Test</a>
+                    </li> -->
+
+                    <!-- 
+                    <li id="bug-reports">
+                        <a href="/TestRepoPro/bug_reports/"><i class="fa fa-bug fa-fw"></i>Bug Reports</a>
+                    </li>
+                    <li id="sync-bugs">
+                        <a href="/TestRepoPro/sync_bugs/"><i class="fa fa-flask fa-fw"></i>Sync Bugs</a>
+                    </li>
+                    -->
+                </ul>
+                <!-- end side-menu -->
+            </div>
+            <!-- end sidebar-collapse -->
+        </nav>
+        <!-- end navbar side -->
+
+        {% block content %}
+        {% endblock %}
+
+
+    </div>
+    <!-- end wrapper -->
+
+    <!-- Core Scripts - Include with every page -->
+    <script src="/static/plugins/jquery-1.10.2.js"></script>
+    <script src="/static/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="/static/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/plugins/pace/pace.js"></script>
+    <script src="/static/scripts/siminta.js"></script>
+    <!-- Page-Level Plugin Scripts -->
+    {% block page-level-scripts %}
+    {% endblock %}
+
+    <!--
+    <script src="/static/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="/static/plugins/morris/morris.js"></script>
+    <script src="/static/scripts/dashboard-demo.js"></script> -->
+
+</body>
+
+</html>

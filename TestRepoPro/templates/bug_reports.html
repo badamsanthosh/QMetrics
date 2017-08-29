@@ -1,0 +1,176 @@
+{% extends "index.html" %}
+
+    {% block page-level-styles %}
+        <link href="/static/plugins/bootstrap/bootstrap-dialog.css" rel="stylesheet" />
+        <link href="/static/plugins/bootstrap/bootstrap-dialog.min.css" rel="stylesheet" />
+    {% endblock %} 
+    
+    {% block content %}        
+        <!--  page-wrapper -->
+        <div id="page-wrapper">
+            
+            <div class="row">
+                <!--  page header -->
+                    <div class="col-lg-12">
+                        <h3 class="page-header">Bug Reports</h3>
+                    </div>
+                <!-- end  page header -->
+            </div>
+            <div class="row">                             
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <label id="label-header">Market Place : {{ version }}</label>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <label id="label-header">Bug Summary</label>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover" >
+                                                <thead>
+                                                    <tr class="bug-summary">
+                                                        <th>P0</th>
+                                                        <th>P1</th>
+                                                        <th>New</th>
+                                                        <th>In-Progress</th>
+                                                        <th>Resolved</th>
+                                                        <th>Verified/Closed</th>                                            
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{{ issue_stats.p1 }}</td>
+                                                        <td>{{ issue_stats.p2 }}</td>
+                                                        <td>{{ issue_stats.new }}</td>
+                                                        <td>{{ issue_stats.in_prog }}</td>
+                                                        <td>{{ issue_stats.resolved }}</td>
+                                                        <td>{{ issue_stats.verify_closed }}</td>                   
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>                                                
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <label id="label-header">Component wise Stats</label>
+                                    </div>                                
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                                <thead>
+                                                    <tr class="bug-summary">
+                                                        <th>Component</th>
+                                                        <th>P1</th>
+                                                        <th>P2</th>
+                                                        <th>New</th>
+                                                        <th>In-Progress</th>
+                                                        <th>Resolved</th>
+                                                        <th>Verified/Closed</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for each_component in components_res %}
+                                                    <tr>
+                                                        <td>{{ each_component.name }}</td>
+                                                        <td>
+                                                            <a href="#" data-param1="urgency=P1 - Hot/Critical&component={{ each_component.name }}" id="click-me"  >
+                                                                {{ each_component.p1 }}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" data-param1="urgency=P2 - High&component={{ each_component.name }}" id="click-me" >
+                                                                {{ each_component.p2 }}
+                                                            </a>
+                                                        </td>
+                                                        <td>                                                            
+                                                            <a href="#" data-param1="status=New&component={{ each_component.name }}" id="click-me" >
+                                                                {{ each_component.new }}
+                                                            </a>                                                            
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" data-param1="status=In Progress&component={{ each_component.name }}" id="click-me" >
+                                                                {{ each_component.in_prog }}
+                                                            </a>
+                                                        </td>                                                         
+                                                        <td>
+                                                            <a href="#" data-param1="status=Resolved&component={{ each_component.name }}" id="click-me" >
+                                                                {{ each_component.resolved }}
+                                                            </a>
+                                                        </td>                                                            
+                                                        <td>
+                                                            <a href="#" data-param1="status=Closed', 'Verified&component={{ each_component.name }}" id="click-me" >
+                                                                {{ each_component.verify_closed }}
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div>
+                        </div>
+                                               
+                    </div>
+            </div>
+        </div>
+        <!-- end page-wrapper -->
+
+
+
+    {% endblock %}
+
+    <!-- Page-Level Plugin Scripts-->
+    {% block page-level-scripts %}
+        <script src="/static/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/static/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <script src="/static/plugins/bootstrap/bootstrap-dialog.min.js"></script>
+        <script src="/static/plugins/bootstrap/bootstrap-dialog.js"></script>
+        <script>
+            $(document).ready(
+                function () 
+                {
+                $('#dataTables-example').dataTable();
+                $('#bug-reports').addClass("selected");
+                }
+                );
+
+        </script>
+        
+        <script>
+            $("a[id^='click-me']").on('click',function()
+            {
+                var url = this.dataset['param1'];
+                var encodedUrl = encodeURI(url);
+                var base_url = "/TestRepoPro/bugs_list/?";
+                final_url = base_url.concat( encodedUrl );                
+                BootstrapDialog.show(
+                                        {
+                                            title: 'Bugs List',                                            
+                                            message: $('<div></div>').load( final_url ),
+                                            buttons:[ 
+                                                        {
+                                                            label:'Close',
+                                                            action: function( dialogItself ){
+                                                                                                dialogItself.close();
+                                                                                            }
+                                                        }
+                                                    ],
+                                        }
+                                    );
+            }
+                            );
+        </script>
+
+    {% endblock %}

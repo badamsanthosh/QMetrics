@@ -1,0 +1,36 @@
+#row_checker #row_checker_all
+{
+	padding-left: 28px;
+}
+
+
+#settings_header, #check_header
+{
+	width:30px; 
+	height:30px;
+}
+
+#label-font
+{
+	font-size:15px;
+}
+
+#label-header
+{
+	font-size:20px;
+}
+
+tbody.spaceUnder > tr > td
+{
+	padding-bottom:1em;
+}
+
+h3.page-header
+{
+	font-size:28px;
+}
+
+tr.bug-summary > th
+{
+	width: 227px;
+}

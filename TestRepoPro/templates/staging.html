@@ -1,0 +1,81 @@
+{% extends "index.html" %}    
+    
+    {% block content %}
+        <!--  page-wrapper -->
+        <div id="page-wrapper">
+
+            <div class="row">
+                 <!--  page header -->
+                <div class="col-lg-12">
+                    <h4 class="page-header">
+                        <ol class="breadcrumb">
+                            <li><b>Staging</b></li>
+                        </ol>
+                    </h4>
+                </div>
+                 <!-- end  page header -->
+            </div>
+                     
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <b>Projects</b>                            
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>ProjectName</th>
+                                            <th>Total TestCases</th>
+                                            <th>Total Passed</th>
+                                            <th>Total Failed</th>
+                                            <th>Total NotRun</th>
+                                            <th>Total Blocked</th>                      
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for each_project in tot_project_stats %}
+                                            <tr>                  
+                                            <td>{{ forloop.counter }}</td>
+                                            <td><a href="/TestRepoPro/usecase_stag_stats/?pid={{ each_project.pid }}&project_name={{ each_project.name}}">{{ each_project.name }}</a></td>
+                                            <td class="center">{{ each_project.tc_count }}</td>
+                                            <td class="center">{{ each_project.tc_pass_count }}</td>
+                                            <td class="center">{{ each_project.tc_fail_count }}</td>
+                                            <td class="center">{{ each_project.tc_nr_count }}</td>
+                                            <td class="center">{{ each_project.tc_block_count }}</td>
+                                        {% endfor %}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>            
+                        
+        </div>
+        <!-- end page-wrapper -->
+    {% endblock %}
+
+    <!-- Page-Level Plugin Scripts-->
+    {% block page-level-scripts %}
+        <!--<script src="/static/plugins/breadcrumb/breadcrumb_prefix.js"></script>-->
+        <script src="/static/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/static/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <script>
+            $(document).ready(
+                function () 
+                {
+                $('#dataTables-example').dataTable();
+                $('#staging').addClass("selected");
+                }
+                );
+
+        </script>
+    {% endblock %}

@@ -1,0 +1,36 @@
+from django.conf.urls import patterns, url
+from TestRepoPro.views import *
+#from TestRepoPro.views import index, login, register, logout, projects, reports, timeline, forms,  addProject, staging, production,stagingUseCaseStats, runSync, productionUseCaseStats, stagingTestCaseStats, productionTestCaseStats, 
+
+urlpatterns = patterns(' ',
+                       url( r'^login/$', login, name = 'login' ),
+                        url( r'^register/$', register, name = 'register' ),
+                        url( r'^$' ,  login, name = 'login' ),
+                        url( r'^index/$' ,  index, name = 'index' ),
+                        url( r'^logout/$', logout, name = 'logout' ),
+                        url( r'^projects/$', projects, name = 'projects' ),
+                        url( r'^reports/$', reports, name = 'reports' ),
+                        url( r'^timeline/$', timeline, name = 'timeline' ),
+                        url( r'^forms/$', forms, name = 'forms' ),
+                        url( r'^dashboard/$', index, name = 'dashboard' ),
+                        url( r'^staging/$', staging, name = 'staging' ),
+                        url( r'^production/$', production, name = 'production' ),
+                        url( r'^run_sync/$', runSync, name = 'run_sync' ),
+                        #url( r'^sync_bugs/$', syncBugs, name = 'sync_bugs' ),
+                        url( r'^add_project/$', addProject, name = 'add_project' ),
+                        url( r'^add_user/$', addUser, name = 'add_user' ),
+                        #url( r'^bug_reports/$', bugReports, name = 'bug_reports' ),
+                        #url( r'^bugs_list', bugsList, name = 'bugs_list' ), 
+                        url( r'^usecase_stag_stats', stagingUseCaseStats, name = 'usecase_stag_stats' ),
+                        url( r'^usecase_prod_stats', productionUseCaseStats, name = 'usecase_prod_stats' ),
+                        url( r'^testcase_stag_stats', stagingTestCaseStats, name = 'testcase_stag_stats' ),
+                        url( r'^testcase_prod_stats', productionTestCaseStats, name = 'testcase_prod_stats' ),
+                        #url( r'^editProject/$', editProject, name = 'edit_project' ),
+                        #Secutiry Web Pages
+                        url( r'^scan_report/', scan_report, name = 'scan_report' ),
+                        url( r'^full_scan_report/$', full_scan_report, name = 'full_scan_report' ),
+                        url( r'^host_scan_report/$', host_scan_report, name = 'host_scan_report' ),
+                        url( r'^scan_report_bytype/$', scan_report_bytype, name = 'scan_report_bytype' ),
+                        url( r'^test/$', test, name = 'test' ),
+                  )
+

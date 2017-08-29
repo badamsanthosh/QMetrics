@@ -1,0 +1,98 @@
+    <div class="row" >
+    	<div class="col-lg-6">
+    		<div class="panel panel-default">
+                <div class="panel-heading" style="padding-bottom: 0px; padding-top: 10px; height: 60px;"> 
+                        <ol class="breadcrumb">
+                            <li><label id="label-header">Open Ports & Services</label></li> 
+                        </ol>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover" id="open-ports" >
+							<thead>
+								<tr>			
+									<th>Port Number</th>
+									<th>Protocol</th>
+									<th>Service</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for each_host in host_open_ports %}
+								<tr>                            
+									<td>{{ each_host.port }}</td>
+									<td>{{ each_host.proto }}</td>
+									<td>{{ each_host.service }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="padding-bottom: 0px; padding-top: 10px; height: 60px;"> 
+                    <ol class="breadcrumb">
+                        <li><label id="label-header">Vulnerabilities</label></li> 
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="vul-info" >
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Family</th>
+                                    <th>Name</th>
+                                    <th>Severity</th>
+                                    <th>Plugin ID</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    {% for each_host in host_vul_info %}
+                                        <tr>                  
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ each_host.family }}</td>
+                                        <td class="center">{{ each_host.name }}</td>
+                                        <td class="center">{{ each_host.severity }}</td>
+                                        <td class="center">
+                                            <a href="http://www.tenable.com/plugins/index.php?view=single&id={{ each_host.plugin_id }}" target="_blank" >
+                                                {{ each_host.plugin_id }}
+                                            </a>
+                                        </td>
+                                    {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="/static/plugins/jquery-1.10.2.js"></script>
+<script src="/static/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="/static/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/static/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+
+<script>
+    $(document).ready(
+        function () 
+        {
+        $('#open-ports').dataTable( {
+        		'pageLength':10
+        	});
+        $('#vul-info').dataTable({
+        	'pageLength':10
+        });
+        }
+        );
+
+</script>

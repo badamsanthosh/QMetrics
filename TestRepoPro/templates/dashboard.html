@@ -1,0 +1,37 @@
+{% extends "index.html" %}    
+    
+    {% block content %}
+        <!--  page-wrapper -->
+        <div id="page-wrapper">
+
+            
+            <div class="row">
+                 <!--  page header -->
+                <div class="col-lg-12">
+                    <h2 class="page-header">DashBoard</h2>
+                </div>
+                 <!-- end  page header -->
+            </div>            
+            <div class="row">
+                <b><h3>Welcome to QADashBoard</h3><b>
+            </div>            
+                        
+        </div>
+        <!-- end page-wrapper -->
+    {% endblock %}
+
+    <!-- Page-Level Plugin Scripts-->
+    {% block page-level-scripts %}
+        <script src="/static/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/static/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <script>
+            $(document).ready(
+                function () 
+                {
+                $('#dataTables-example').dataTable();
+                $('#dashboard').addClass("selected");
+                }
+                );
+
+        </script>
+    {% endblock %}
